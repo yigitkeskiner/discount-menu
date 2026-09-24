@@ -23,12 +23,12 @@
   --radius:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
+html{scroll-padding-top:80px}
 body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);padding-bottom:120px}
 .wrap{max-width:560px;margin:0 auto}
 
 /* ====== HERO (arka plan: hero.jpg) ====== */
-.hero{position:relative;height:300px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;
+.hero{position:relative;height:250px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;
   background:
     radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.08), transparent 60%),
     linear-gradient(180deg,#3c614f 0%,#2d4c3d 100%);}
@@ -116,7 +116,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20p
   <div class="logo-fallback">DISCOUNT</div>
   <div class="hello">HOŞ GELDİNİZ</div>
   <h1>Discount Pizza</h1>
-  <p>Lezzeti Büyük, Fiyatı Küçük, Deneyen Vazgeçemiyor.</p>
 </header>
 
 <nav class="tabs"><div class="tabs-inner" id="tabs"></div></nav>
@@ -131,8 +130,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20p
 <div class="bottom">
   <button onclick="openSheet('info')" aria-label="Bilgi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
   <button onclick="openSheet('search')" aria-label="Ara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-  <button class="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg></button>
-  <button onclick="document.getElementById('cat-ogrenci').scrollIntoView()" aria-label="Öğrenci Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></button>
+  <button class="fab" onclick="goTo('all')" aria-label="Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg></button>
+  <button onclick="goTo('ogrenci')" aria-label="Öğrenci Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></button>
   <button aria-label="Dil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>TR</button>
 </div>
 
@@ -213,21 +212,32 @@ function render(){
 
   tabs.onclick = e=>{
     const b = e.target.closest(".tab"); if(!b) return;
-    tabs.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
-    const t=b.dataset.t;
-    if(t==="all") window.scrollTo({top:document.querySelector(".tabs").offsetTop,behavior:"smooth"});
-    else document.getElementById("cat-"+t).scrollIntoView({behavior:"smooth"});
+    goTo(b.dataset.t);
   };
+}
+
+/* Kategoriye git — sekme çubuğunun yüksekliği kadar pay bırakır */
+let lockUntil=0;
+function setActive(id){
+  const bar=document.getElementById("tabs");
+  bar.querySelectorAll(".tab").forEach(x=>{
+    const on=x.dataset.t===id; x.classList.toggle("active",on);
+    if(on) bar.scrollTo({left:x.offsetLeft-(bar.clientWidth-x.offsetWidth)/2,behavior:"smooth"});
+  });
+}
+function goTo(id){
+  const barH=document.querySelector(".tabs").offsetHeight;
+  const top = id==="all" ? 0 : document.getElementById("cat-"+id).getBoundingClientRect().top+window.scrollY-barH-12;
+  lockUntil=Date.now()+900;          /* kaydırma bitene kadar otomatik sekme değişimini durdur */
+  setActive(id);
+  window.scrollTo({top,behavior:"smooth"});
 }
 
 /* Kaydırırken aktif sekmeyi güncelle */
 const spy = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){
-    const id=e.target.id.replace("cat-","");
-    document.querySelectorAll(".tab").forEach(x=>{
-      const on=x.dataset.t===id; x.classList.toggle("active",on);
-      if(on) x.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
-    });
+    if(Date.now()<lockUntil) return;
+    setActive(e.target.id.replace("cat-",""));
   }});
 },{rootMargin:"-40% 0px -55% 0px"});
 
