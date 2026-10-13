@@ -78,7 +78,7 @@ main{padding:24px 20px 0}
 .size i{display:block;font-style:normal;font-size:11px;color:var(--muted)}
 .size span{display:block;font-size:16px;font-weight:900;color:var(--green);margin-top:3px}
 .size.xl{background:var(--green);}
-@media(max-width:360px){.sizes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:360px){.sizes{grid-template-columns:repeat(2,1fr)!important}}
 @media(max-width:420px){.size span{font-size:14px}.size i{font-size:10px}}
 .size.xl b,.size.xl i,.size.xl span{color:#fff}
 
@@ -151,34 +151,40 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20p
 /* ====== MENÜ VERİSİ — fiyatları buradan güncelle ====== */
 const GLUTEN = "⚠ Gluten ve laktoz içerir.";
 const MENU = [
+ { id:"ogrenci", name:"Dilim Menüler", emoji:"🎓", student:true, items:[
+   { name:"Tek Dilim Menü", combo:["1 Dilim Gergedan Boy Pizza","Patates Kızartması","Kutu İçecek"], img:"menu1.jpg", price:180 },
+   { name:"Çift Dilim Menü", combo:["2 Dilim Gergedan Boy Pizza","Patates Kızartması","Kutu İçecek"], img:"menu2.jpg", price:250 },
+ ]},
  { id:"pizzalar", name:"Pizzalar", emoji:"🍕", items:[
    { name:"Margarita Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri", tag:GLUTEN, img:"margarita.jpg",
-     sizes:[["Küçük","200 gr",160],["Orta","400 gr",220],["Büyük","540 gr",270],["Gergedan","1140 gr · Bütün",420,1]] },
-   { name:"Üç Peynirli Pizza", desc:"Pizza tabanı, pizza sosu, üç çeşit peynir", tag:GLUTEN, img:"ucpeynirli.jpg",
-     sizes:[["Küçük","200 gr",180],["Orta","400 gr",240],["Büyük","540 gr",290],["Gergedan","1140 gr · Bütün",440,1]] },
+     sizes:[["Orta","400 gr",230],["Büyük","540 gr",300],["Gergedan","1140 gr · Bütün",400,1]] },
    { name:"Karışık Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri, dana sucuk, kırmızı biber, yeşil biber, mısır, zeytin", tag:GLUTEN, img:"karisik.jpg",
-     sizes:[["Küçük","200 gr",190],["Orta","400 gr",250],["Büyük","540 gr",310],["Gergedan","1140 gr · Bütün",460,1]] },
-   { name:"Margarita Pizza Napoli", badge:"EKŞİ MAYA", desc:"Ekşi maya hamuru ile Napoli usulü · 450 gr", tag:GLUTEN, img:"napoli.jpg", price:300 },
-   { name:"Gergedan Pizza", badge:"DEV DİLİM", desc:"Gergedan pizzadan 1 dev dilim", tag:GLUTEN, img:"gergedan-dilim.jpg", price:80 },
+     sizes:[["Küçük","200 gr",200],["Büyük","540 gr",350]] },
+   { name:"Peperoni Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri, peperoni", tag:GLUTEN, img:"peperoni.jpg",
+     sizes:[["Küçük","200 gr",200],["Orta","400 gr",250],["Büyük","540 gr",350],["Gergedan","1140 gr · Bütün",450,1]] },
+   { name:"3 Peynirli Pizza", desc:"Pizza tabanı, pizza sosu, üç çeşit peynir", tag:GLUTEN, img:"ucpeynirli.jpg",
+     sizes:[["Orta","400 gr",250],["Büyük","540 gr",320]] },
  ]},
  { id:"atistirmalik", name:"Atıştırmalıklar", emoji:"🍟", items:[
-   { name:"Patates Kızartması", desc:"~200 gr porsiyon", img:"patates.jpg", price:90 },
-   { name:"Soğan Halkası", desc:"~150 gr porsiyon", img:"sogan.jpg", price:80 },
-   { name:"Mozzarella Stick", desc:"~150 gr porsiyon", img:"mozzarella.jpg", price:140 },
+   { name:"Patates Kızartması", img:"patates.jpg", sizes:[["Küçük","",60],["Büyük","",120]] },
+   { name:"Soğan Halkası", img:"sogan.jpg", sizes:[["4'lü","",50],["8'li","",80]] },
+   { name:"Mozzarella Stick", desc:"5'li", img:"mozzarella.jpg", price:100 },
  ]},
  { id:"tatlilar", name:"Tatlılar", emoji:"🍫", items:[
-   { name:"Sufle", img:"sufle.jpg", price:120 },
-   { name:"Kruvasan", img:"kruvasan.jpg", price:140 },
+   { name:"Sufle", desc:"Büyük", img:"sufle.jpg", price:120 },
+ ]},
+ { id:"kahve", name:"Kahveler", emoji:"☕", items:[
+   { name:"Filtre Kahve", img:"filtre.jpg", price:100 },
+   { name:"Americano", img:"americano.jpg", price:120 },
+   { name:"Latte", img:"latte.jpg", price:120 },
+   { name:"Espresso", img:"espresso.jpg", price:80 },
  ]},
  { id:"icecekler", name:"İçecekler", emoji:"🥤", items:[
-   { name:"Kutu İçecekler", desc:"330 ml", img:"kutu.jpg", price:60 },
-   { name:"Pet İçecekler", desc:"1 litre", img:"pet.jpg", price:120 },
+   { name:"Ayran", img:"ayran.jpg", price:30 },
+   { name:"Soda", img:"soda.jpg", price:20 },
+   { name:"Cam Şişe İçecek", img:"cam.jpg", price:50 },
    { name:"Su", img:"su.jpg", price:15 },
- ]},
- { id:"ogrenci", name:"Öğrenci Menüleri", emoji:"🎓", student:true, items:[
-   { name:"Tek Dilim Menü", combo:["1 Dilim Pizza","Patates Kızartması","Kutu İçecek"], img:"menu1.jpg", price:170 },
-   { name:"Çift Dilim Doyuran Menü", combo:["2 Dilim Pizza","Patates Kızartması","Kutu İçecek"], img:"menu2.jpg", price:220 },
-   { name:"Orta Boy Paylaşım Menüsü", combo:["Karışık Orta Boy Pizza","Büyük Patates Kızartması","1 Litre Pet İçecek"], img:"menu3.jpg", price:350 },
+   { name:"Litrelik İçecek", desc:"1 litre", img:"pet.jpg", price:120 },
  ]},
 ];
 
@@ -205,8 +211,8 @@ function render(){
           </div>
           ${it.price?`<div class="price-single">${tl(it.price)}</div>`:''}
         </div>
-        ${it.sizes?`<div class="sizes">${it.sizes.map(s=>`
-          <div class="size ${s[3]?'xl':''}"><b>${s[0]}</b><i>${s[1]}</i><span>${tl(s[2])}</span></div>`).join('')}</div>`:''}
+        ${it.sizes?`<div class="sizes" style="grid-template-columns:repeat(${it.sizes.length},1fr)">${it.sizes.map(s=>`
+          <div class="size ${s[3]?'xl':''}"><b>${s[0]}</b>${s[1]?`<i>${s[1]}</i>`:""}<span>${tl(s[2])}</span></div>`).join('')}</div>`:''}
       </article>`).join("")}
    </section>`).join("");
 
