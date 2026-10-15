@@ -87,6 +87,8 @@ main{padding:24px 20px 0}
 
 .pdfbtn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:800;padding:12px 22px;border-radius:999px;font-size:15px}
 .empty{display:none;text-align:center;color:var(--muted);padding:40px 0}
+.notice{margin:0 20px 18px;background:#fff8d6;border:1px solid #f0de8a;border-radius:14px;padding:12px 16px;font-size:13px;color:#555;line-height:1.5}
+.notice .warn{color:#a33a00;font-weight:700;margin-top:4px}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20px}
 
 /* ====== ALT BAR ====== */
@@ -122,6 +124,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20p
 
 <main id="menu"></main>
 <div class="empty" id="empty">Aradığınız ürün bulunamadı.</div>
+<div class="notice">
+  <p>* 15.10.2026 tarihinden itibaren geçerli fiyatlarımızdır.</p>
+  <p class="warn">⚠ Ürünlerimiz <b>GLUTEN</b>, <b>LAKTOZ</b> ve <b>YUMURTA</b> içermektedir.</p>
+</div>
 <div style="text-align:center;padding:4px 20px 18px"><a class="pdfbtn" href="discount-pizza-menu.pdf" target="_blank">📄 Menüyü PDF olarak aç</a></div>
 <footer>Yalı Mah. İdil Biret Caddesi No:26 Atakent<br>Fiyatlarımıza KDV dahildir. · Discount Pizza</footer>
 </div>
@@ -143,47 +149,59 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 20p
   <div class="sheet-box"><button class="close" onclick="closeSheet()">×</button><h4>Bilgi</h4>
   <ul>
     <li>📍 Yalı Mah. İdil Biret Caddesi No:26 Atakent</li>
-        <li>ℹ️ Tüm fiyatlara KDV dahildir.</li>
+    <li>ℹ️ Tüm fiyatlara KDV dahildir.</li>
+    <li>📅 15.10.2026 tarihinden itibaren geçerli fiyatlar.</li>
+    <li>⚠️ Ürünlerimiz gluten, laktoz ve yumurta içermektedir.</li>
   </ul></div>
 </div>
 
 <script>
 /* ====== MENÜ VERİSİ — fiyatları buradan güncelle ====== */
-const GLUTEN = "⚠ Gluten ve laktoz içerir.";
+const GLUTEN = "⚠ Gluten, laktoz ve yumurta içerir.";
 const MENU = [
- { id:"ogrenci", name:"Dilim Menüler", emoji:"🎓", student:true, items:[
+ { id:"ogrenci", name:"Menüler", emoji:"🎓", student:true, items:[
    { name:"Tek Dilim Menü", combo:["1 Dilim Gergedan Boy Pizza","Patates Kızartması","Kutu İçecek"], img:"menu1.jpg", price:180 },
-   { name:"Çift Dilim Menü", combo:["2 Dilim Gergedan Boy Pizza","Patates Kızartması","Kutu İçecek"], img:"menu2.jpg", price:250 },
+   { name:"Çift Dilim Menü", combo:["2 Dilim Gergedan Boy Pizza","Patates Kızartması","Litrelik İçecek"], img:"menu2.jpg", price:250 },
+   { name:"Orta Boy Paylaşım Menüsü", desc:"Seçeceğiniz orta boy pizza (Ekşi Maya seçenekleri dahil değildir)", combo:["Orta Boy Pizza","Büyük Boy Patates Kızartması","1 Litre İçecek"], img:"menu3.jpg", price:400 },
  ]},
  { id:"pizzalar", name:"Pizzalar", emoji:"🍕", items:[
    { name:"Margarita Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri", tag:GLUTEN, img:"margarita.jpg",
-     sizes:[["Orta","",230],["Büyük","",300],["Gergedan","",400,1]] },
+     sizes:[["Küçük","",160],["Orta","",230],["Büyük","",300],["Gergedan","",400,1]] },
+   { name:"3 Peynirli Pizza", desc:"Pizza tabanı, pizza sosu, üç çeşit peynir", tag:GLUTEN, img:"ucpeynirli.jpg",
+     sizes:[["Küçük","",200],["Orta","",250],["Büyük","",320],["Gergedan","",440,1]] },
    { name:"Karışık Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri, dana sucuk, kırmızı biber, yeşil biber, mısır, zeytin", tag:GLUTEN, img:"karisik.jpg",
-     sizes:[["Küçük","",200],["Büyük","",350]] },
+     sizes:[["Küçük","",200],["Orta","",250],["Büyük","",350],["Gergedan","",450,1]] },
    { name:"Peperoni Pizza", desc:"Pizza tabanı, pizza sosu, pizza peyniri, peperoni", tag:GLUTEN, img:"peperoni.jpg",
      sizes:[["Küçük","",200],["Orta","",250],["Büyük","",350],["Gergedan","",450,1]] },
-   { name:"3 Peynirli Pizza", desc:"Pizza tabanı, pizza sosu, üç çeşit peynir", tag:GLUTEN, img:"ucpeynirli.jpg",
-     sizes:[["Orta","",250],["Büyük","",320]] },
+   { name:"Gergedan Dilim Pizza", desc:"1 dilim Gergedan boy pizza", tag:GLUTEN, img:"gergedan-dilim.jpg", price:80 },
+ ]},
+ { id:"eksimaya", name:"Ekşi Maya Pizzalar", emoji:"🥖", items:[
+   { name:"Ekşi Maya Margarita", tag:GLUTEN, img:"eksimaya-margarita.jpg", price:400 },
+   { name:"Ekşi Maya Dana Füme", tag:GLUTEN, img:"eksimaya-fume.jpg", price:500 },
+   { name:"Ekşi Maya Dana Kavurma", tag:GLUTEN, img:"eksimaya-kavurma.jpg", price:500 },
  ]},
  { id:"atistirmalik", name:"Atıştırmalıklar", emoji:"🍟", items:[
    { name:"Patates Kızartması", img:"patates.jpg", sizes:[["Küçük","",60],["Büyük","",120]] },
-   { name:"Soğan Halkası", img:"sogan.jpg", sizes:[["4'lü","",50],["8'li","",80]] },
+   { name:"Soğan Halkası", img:"sogan.jpg", sizes:[["4'lü","",60],["8'li","",80]] },
    { name:"Mozzarella Stick", desc:"5'li", img:"mozzarella.jpg", price:100 },
  ]},
  { id:"tatlilar", name:"Tatlılar", emoji:"🍫", items:[
    { name:"Sufle", desc:"Büyük", img:"sufle.jpg", price:120 },
+   { name:"Kruvasan", img:"kruvasan.jpg", price:140 },
  ]},
  { id:"kahve", name:"Kahveler", emoji:"☕", items:[
    { name:"Filtre Kahve", img:"filtre.jpg", price:100 },
    { name:"Americano", img:"americano.jpg", price:120 },
    { name:"Latte", img:"latte.jpg", price:120 },
-   { name:"Espresso", img:"espresso.jpg", price:80 },
+   { name:"Espresso", img:"espresso.jpg", price:100 },
+   { name:"Türk Kahvesi", img:"turkkahvesi.jpg", price:80 },
  ]},
  { id:"icecekler", name:"İçecekler", emoji:"🥤", items:[
-   { name:"Ayran", img:"ayran.jpg", price:30 },
-   { name:"Soda", img:"soda.jpg", price:20 },
-   { name:"Cam Şişe İçecek", img:"cam.jpg", price:50 },
    { name:"Su", img:"su.jpg", price:15 },
+   { name:"Ayran", img:"ayran.jpg", price:30 },
+   { name:"Soda", img:"soda.jpg", price:25 },
+   { name:"Cam Şişe İçecek", img:"cam.jpg", price:60 },
+   { name:"Kutu İçecek", img:"kutu.jpg", price:60 },
    { name:"Litrelik İçecek", desc:"1 litre", img:"pet.jpg", price:120 },
  ]},
 ];
